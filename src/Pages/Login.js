@@ -44,6 +44,7 @@ class Login extends Component {
         alert ('Please register for an account')
       })
   }
+  
   render() {
 
     return (

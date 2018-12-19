@@ -5,13 +5,17 @@ import constants from '../constants/general';
 
 class Logout extends Component {
     componentDidMount() {
-        axios.post(constants.host + '/logout')
-            .then(data => {
-                alert(data.msg)
-            })
-            .catch(err => {
-                alert(err.msg)
-            })
+        axios(constants.host + '/logout', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": 'Bearer ' + localStorage['access_token']
+            }
+        }).then(data => {
+            alert(data)
+        }).catch(err => {
+            alert(err)
+        })
     }
 
     render(){
