@@ -21,17 +21,18 @@ class Home extends Component{
     fileUploadHandler = () =>{
         console.log(this.state.selectedFile)
         var accessToken = localStorage['access_token']
-        const fd = new FormData();
+        alert(accessToken)
+        const fd = new FormData();  
         fd.append('photo', this.state.selectedFile, this.state.selectedFile.name);
-        axios(constants.host + '/classify', {
-                method: 'post',
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                  "Authorization": 'Bearer ' + accessToken
-                },
-                data: fd
-              })
-        
+        axios.post(constants.host + '/login',  { username: localStorage.getItem('username'), password: localStorage.getItem('password') })
+        .then(() => axios(constants.host + '/classify', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              "Authorization": 'Bearer ' + accessToken
+            },
+            data: fd
+        }))
         .then(res => {
             console.log('resolved', res.data);
             this.setState({
@@ -41,6 +42,7 @@ class Home extends Component{
         })
         .catch( err => {
             console.log('errored', err)
+            console.log('err response ', err.response)
         })        
     }
 
@@ -61,14 +63,17 @@ class Home extends Component{
             }
 
     render(){
+        console.log(constants.host + '/' + this.state.image)
         return(
             <div>
+            { this.state.image ? <img src={constants.host + '/' + this.state.image}/> : undefined }
+
             { this.state.image ? this.state.predictions.map(e => {
-                    return <center><div key={e.score}> 
+                    return <center  key={e.score}>
                     <h1>{e.description}</h1>
                     <p style={{fontWeight: "bold"}}>Match Percentage: {(e.score *100).toFixed(2) + '%'}</p>
                     <p className='summary'><p style={{fontWeight: "bold"}}>Summary:</p> {e.summary}</p>
-                    <p className='linkbutton'><a href = {e.wikipediaUrl}>Wikipedia Link</a></p> </div>
+                    <p className='linkbutton'><a href = {e.wikipediaUrl}>Wikipedia Link</a></p>
                     </center>
                 }) : this.uploadImage() }
             
