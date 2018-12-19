@@ -13,6 +13,10 @@ class History extends Component {
             historyItems: [],
             item: undefined,
         }
+        this.getHistory ()
+    }
+
+    getHistory = item => {
         axios.post(constants.host + '/login',  { username: localStorage.getItem('username'), password: localStorage.getItem('password') })
         .then (res => {
             var history_data = res.data.history
@@ -24,7 +28,6 @@ class History extends Component {
             console.log(err.response)
             alert("Please log in")
         })
-
     }
 
     deleteImage = item => {
@@ -52,10 +55,15 @@ class History extends Component {
         this.setState({ item })
     }
 
+    refresh = item => {
+        this.getHistory()
+    }
+
     render(){
         return(
             <div>
                 <p className='homeText1'>History</p>
+                <Button onClick = {e => this.refresh()}> Refresh</Button> <br/>
                 { this.state.historyItems.map(item => {
                     return <OverlayTrigger
                                 trigger={['focus', 'click']}
