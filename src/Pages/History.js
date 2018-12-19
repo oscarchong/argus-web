@@ -21,7 +21,7 @@ class History extends Component {
             localStorage.setItem('access_token', res.data.access_token)
         })
         .catch(err => {
-            console.log(err)
+            console.log(err.response)
             alert("Please log in")
         })
 
