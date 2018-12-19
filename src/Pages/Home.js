@@ -25,11 +25,11 @@ class Home extends Component{
         const fd = new FormData();  
         fd.append('photo', this.state.selectedFile, this.state.selectedFile.name);
         axios.post(constants.host + '/login',  { username: localStorage.getItem('username'), password: localStorage.getItem('password') })
-        .then(() => axios(constants.host + '/classify', {
+        .then(res => axios(constants.host + '/classify', {
             method: 'post',
             headers: {
               'Content-Type': 'multipart/form-data',
-              "Authorization": 'Bearer ' + accessToken
+              "Authorization": 'Bearer ' + res.data.access_token
             },
             data: fd
         }))
