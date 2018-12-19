@@ -21,7 +21,6 @@ class Home extends Component{
     fileUploadHandler = () =>{
         console.log(this.state.selectedFile)
         var accessToken = localStorage['access_token']
-        alert(accessToken)
         const fd = new FormData();  
         fd.append('photo', this.state.selectedFile, this.state.selectedFile.name);
         axios.post(constants.host + '/login',  { username: localStorage.getItem('username'), password: localStorage.getItem('password') })

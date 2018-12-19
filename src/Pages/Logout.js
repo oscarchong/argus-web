@@ -12,9 +12,9 @@ class Logout extends Component {
                 "Authorization": 'Bearer ' + localStorage['access_token']
             }
         }).then(data => {
-            alert(data)
+            alert('Okay Logged Out!')
         }).catch(err => {
-            alert(err)
+            alert('Error\n' + err.message)
         })
     }
 
